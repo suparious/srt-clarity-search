@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: srt-clarity-search
+  namespace: srt-clarity-search
+  labels:
+    app: srt-clarity-search
+spec:
+  type: ClusterIP
+  selector:
+    app: srt-clarity-search
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3000
+    protocol: TCP

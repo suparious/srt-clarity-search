@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: srt-clarity-search-config
+  namespace: srt-clarity-search
+  labels:
+    app: srt-clarity-search
+data:
+  # vLLM inference service endpoint (internal cluster service)
+  VLLM_API_BASE: "http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1"
+  # Public-facing inference URL (via Artemis proxy)
+  VLLM_PUBLIC_URL: "https://vllm.lab.hq.solidrust.net/v1"
+  # Application configuration
+  NODE_ENV: "production"
+  NEXT_TELEMETRY_DISABLED: "1"

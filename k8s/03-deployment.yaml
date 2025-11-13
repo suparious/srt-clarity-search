@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: srt-clarity-search
+  namespace: srt-clarity-search
+  labels:
+    app: srt-clarity-search
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: srt-clarity-search
+  template:
+    metadata:
+      labels:
+        app: srt-clarity-search
+    spec:
+      containers:
+      - name: srt-clarity-search
+        image: suparious/srt-clarity-search:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: srt-clarity-search-config
+              key: NODE_ENV
+        - name: NEXT_TELEMETRY_DISABLED
+          valueFrom:
+            configMapKeyRef:
+              name: srt-clarity-search-config
+              key: NEXT_TELEMETRY_DISABLED
+        - name: VLLM_API_BASE
+          valueFrom:
+            configMapKeyRef:
+              name: srt-clarity-search-config
+              key: VLLM_API_BASE
+        - name: VLLM_PUBLIC_URL
+          valueFrom:
+            configMapKeyRef:
+              name: srt-clarity-search-config
+              key: VLLM_PUBLIC_URL
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
