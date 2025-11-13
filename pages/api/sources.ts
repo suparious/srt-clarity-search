@@ -65,7 +65,7 @@ const searchHandler = async (req: NextApiRequest, res: NextApiResponse<Data>) =>
         const doc = dom.window.document;
         const parsed = new Readability(doc).parse();
 
-        if (parsed) {
+        if (parsed && parsed.textContent) {
           let sourceText = cleanSourceText(parsed.textContent);
 
           return { url: link, text: sourceText };
