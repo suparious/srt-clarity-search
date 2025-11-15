@@ -101,7 +101,7 @@ This application is deployed on the SRT-HQ Kubernetes platform and integrates wi
 - Public URL: `https://hub.docker.com/r/suparious/srt-clarity-search`
 
 **vLLM Integration**:
-- Internal URL: `http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1/chat/completions`
+- Internal URL: `http://vllm.inference.svc.cluster.local:8000/v1/chat/completions`
 - Public URL: `https://vllm.lab.hq.solidrust.net/v1/chat/completions` (via Artemis proxy)
 
 ---
@@ -309,7 +309,7 @@ kubectl describe certificate -n srt-clarity-search srt-clarity-search-tls
 kubectl describe ingress -n srt-clarity-search srt-clarity-search
 
 # Test vLLM connectivity from pod
-kubectl exec -it -n srt-clarity-search <pod-name> -- wget -O- http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1/models
+kubectl exec -it -n srt-clarity-search <pod-name> -- wget -O- http://vllm.inference.svc.cluster.local:8000/v1/models
 ```
 
 ---
@@ -374,7 +374,7 @@ kubectl exec -it -n srt-clarity-search <pod-name> -- wget -O- http://vllm-infere
 - Target Port: 3000 (Next.js container)
 
 **vLLM Integration**:
-- Internal Service: `vllm-inference.vllm-inference.svc.cluster.local:8000`
+- Internal Service: `vllm.inference.svc.cluster.local:8000`
 - API Endpoint: `/v1/chat/completions` (OpenAI-compatible)
 - Authentication: Bearer token (passed from client)
 - Model: Configured in vLLM deployment (typically Meta-Llama or similar)
@@ -434,7 +434,7 @@ curl -k https://clarity.lab.hq.solidrust.net
 
 # 7. Test vLLM connectivity (from pod)
 kubectl exec -it -n srt-clarity-search <pod-name> -- \
-  wget -O- http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1/models
+  wget -O- http://vllm.inference.svc.cluster.local:8000/v1/models
 # Expected: JSON response with available models
 
 # 8. Browser test
@@ -518,7 +518,7 @@ You're doing well if:
 **Status**: Production Ready
 **Platform**: SRT-HQ Kubernetes
 **Access**: https://clarity.lab.hq.solidrust.net
-**vLLM**: http://vllm-inference.vllm-inference.svc.cluster.local:8000
+**vLLM**: http://vllm.inference.svc.cluster.local:8000
 
 ---
 

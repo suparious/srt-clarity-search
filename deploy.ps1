@@ -188,7 +188,7 @@ Write-Host ""
 Write-ColorOutput "Access the application at: https://clarity.lab.hq.solidrust.net" 'Yellow'
 Write-Host ""
 Write-ColorOutput "Configuration:" $colors.Header
-Write-Host "  vLLM Internal: http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1"
+Write-Host "  vLLM Internal: http://vllm.inference.svc.cluster.local:8000/v1"
 Write-Host "  vLLM Public:   https://vllm.lab.hq.solidrust.net/v1"
 Write-Host ""
 Write-ColorOutput "Useful commands:" $colors.Header

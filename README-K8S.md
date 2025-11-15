@@ -82,7 +82,7 @@ kubectl describe pod -n srt-clarity-search <pod-name>
 
 # Test vLLM connectivity
 kubectl exec -it -n srt-clarity-search <pod-name> -- \
-  wget -O- http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1/models
+  wget -O- http://vllm.inference.svc.cluster.local:8000/v1/models
 ```
 
 ---
@@ -116,7 +116,7 @@ kubectl exec -it -n srt-clarity-search <pod-name> -- \
 - Timeout: 300s (for streaming)
 
 **vLLM Integration**:
-- Internal: `http://vllm-inference.vllm-inference.svc.cluster.local:8000`
+- Internal: `http://vllm.inference.svc.cluster.local:8000`
 - Public: `https://vllm.lab.hq.solidrust.net`
 - API: `/v1/chat/completions` (OpenAI-compatible)
 
@@ -212,7 +212,7 @@ kubectl exec -it -n srt-clarity-search <pod-name> -- sh
 
 # Test vLLM from pod
 kubectl exec -it -n srt-clarity-search <pod-name> -- \
-  wget -qO- http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1/models
+  wget -qO- http://vllm.inference.svc.cluster.local:8000/v1/models
 
 # Port-forward for local access
 kubectl port-forward -n srt-clarity-search svc/srt-clarity-search 3000:80

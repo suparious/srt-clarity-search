@@ -7,7 +7,7 @@ metadata:
     app: srt-clarity-search
 data:
   # vLLM inference service endpoint (internal cluster service)
-  VLLM_API_BASE: "http://vllm-inference.vllm-inference.svc.cluster.local:8000/v1"
+  VLLM_API_BASE: "http://vllm.inference.svc.cluster.local:8000/v1"
   # Public-facing inference URL (via Artemis proxy)
   VLLM_PUBLIC_URL: "https://vllm.lab.hq.solidrust.net/v1"
   # Application configuration
