@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: srt-clarity-search
-        image: suparious/srt-clarity-search:latest
+        image: ghcr.io/suparious/srt-clarity-search:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 3000

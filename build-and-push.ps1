@@ -1,13 +1,13 @@
 #!/usr/bin/env pwsh
 <#
 .SYNOPSIS
-    Build and push SRT Clarity Search Docker image to Docker Hub
+    Build and push SRT Clarity Search Docker image to GitHub Container Registry
 
 .DESCRIPTION
-    Builds the SRT Clarity Search Next.js application Docker image and optionally pushes to Docker Hub
+    Builds the SRT Clarity Search Next.js application Docker image and optionally pushes to GitHub Container Registry
 
-.PARAMETER DockerHubUsername
-    Docker Hub username (default: suparious)
+.PARAMETER GitHub Container RegistryUsername
+    GitHub Container Registry username (default: suparious)
 
 .PARAMETER ImageName
     Docker image name (default: srt-clarity-search)
@@ -16,10 +16,10 @@
     Docker image tag (default: latest)
 
 .PARAMETER Push
-    Push image to Docker Hub after building
+    Push image to GitHub Container Registry after building
 
 .PARAMETER Login
-    Login to Docker Hub before building/pushing
+    Login to GitHub Container Registry before building/pushing
 
 .EXAMPLE
     .\build-and-push.ps1
@@ -27,13 +27,13 @@
 
 .EXAMPLE
     .\build-and-push.ps1 -Login -Push
-    Build and push to Docker Hub
+    Build and push to GitHub Container Registry
 #>
 
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
-    [string]$DockerHubUsername = "suparious",
+    [string]$GitHub Container RegistryUsername = "suparious",
 
     [Parameter(Mandatory = $false)]
     [string]$ImageName = "srt-clarity-search",
@@ -83,15 +83,15 @@ Write-ColorOutput "`n=== SRT Clarity Search - Docker Image Builder ===" $colors.
 Write-ColorOutput "Building Docker image for Perplexity.ai clone with vLLM integration`n" $colors.Info
 
 # Determine full image name
-$fullImageName = "${DockerHubUsername}/${ImageName}:${Tag}"
+$fullImageName = "${GitHub Container RegistryUsername}/${ImageName}:${Tag}"
 
 Write-ColorOutput "Target image: $fullImageName" $colors.Info
 Write-Host ""
 
-# Docker Hub login if requested
+# GitHub Container Registry login if requested
 if ($Login) {
-    Write-ColorOutput "Logging into Docker Hub..." $colors.Info
-    docker login
+    Write-ColorOutput "Logging into GitHub Container Registry..." $colors.Info
+    docker login ghcr.io
     # Don't check exit code - docker login can be finicky with exit codes in PowerShell
     Write-ColorOutput "✅ Login attempt completed" $colors.Success
     Write-Host ""
@@ -99,7 +99,7 @@ if ($Login) {
 
 # Check if logged in if Push is requested
 if ($Push) {
-    Write-ColorOutput "Checking Docker Hub authentication..." $colors.Info
+    Write-ColorOutput "Checking GitHub Container Registry authentication..." $colors.Info
 
     # Determine Docker config path (Windows or Linux/WSL)
     if ($env:USERPROFILE) {
@@ -144,13 +144,13 @@ if ($Push) {
     }
 
     if (-not $isAuthenticated) {
-        Write-ColorOutput "Not logged into Docker Hub" $colors.Warning
+        Write-ColorOutput "Not logged into GitHub Container Registry" $colors.Warning
         Write-ColorOutput "Please run: docker login" $colors.Info
         Write-ColorOutput "Or use: .\build-and-push.ps1 -Login -Push" $colors.Info
         exit 1
     }
 
-    Write-ColorOutput "✅ Docker Hub authentication confirmed" $colors.Success
+    Write-ColorOutput "✅ GitHub Container Registry authentication confirmed" $colors.Success
     Write-Host ""
 }
 
@@ -180,9 +180,9 @@ else {
 }
 Write-Host ""
 
-# Push to Docker Hub if requested
+# Push to GitHub Container Registry if requested
 if ($Push) {
-    Write-ColorOutput "Pushing image to Docker Hub..." $colors.Header
+    Write-ColorOutput "Pushing image to GitHub Container Registry..." $colors.Header
     docker push $fullImageName
     if ($LASTEXITCODE -ne 0) {
         Write-ColorOutput "Docker push failed" $colors.Error
@@ -198,7 +198,7 @@ Write-ColorOutput "Image: $fullImageName" $colors.Info
 Write-ColorOutput "Status: Built successfully" $colors.Success
 if ($Push) {
     Write-ColorOutput "Published: Yes" $colors.Success
-    Write-ColorOutput "Public URL: https://hub.docker.com/r/$DockerHubUsername/$ImageName" $colors.Info
+    Write-ColorOutput "Public URL: https://hub.docker.com/r/$GitHub Container RegistryUsername/$ImageName" $colors.Info
 }
 else {
     Write-ColorOutput "Published: No (local only)" $colors.Warning
@@ -212,14 +212,14 @@ if (-not $Push) {
     Write-Host "     docker run --rm -p 3000:3000 $fullImageName" -ForegroundColor Yellow
     Write-Host "     Open http://localhost:3000" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "  2. Push to Docker Hub:" -ForegroundColor Yellow
+    Write-Host "  2. Push to GitHub Container Registry:" -ForegroundColor Yellow
     Write-Host "     .\build-and-push.ps1 -Push" -ForegroundColor Yellow
     Write-Host ""
 }
 
 if ($Push) {
     Write-ColorOutput "🎉 Image is now publicly available!" $colors.Success
-    Write-Host "   https://hub.docker.com/r/$DockerHubUsername/$ImageName" -ForegroundColor Green
+    Write-Host "   https://hub.docker.com/r/$GitHub Container RegistryUsername/$ImageName" -ForegroundColor Green
     Write-Host ""
     Write-ColorOutput "Deploy to Kubernetes:" $colors.Header
     Write-Host "   .\deploy.ps1" -ForegroundColor Cyan
